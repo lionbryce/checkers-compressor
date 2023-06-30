@@ -121,3 +121,81 @@ end
 local function orginalToEncoded(tab)
 	return encode(padArray(arrayToEncodedBits(compress(tab)),8))
 end
+
+--[[
+local original = {
+	{0,1,0,1,0,1,0,1},
+	{1,0,1,0,1,0,1,0},
+	{0,1,0,1,0,1,0,1},
+	{0,0,0,0,0,0,0,0},
+	{0,0,0,0,0,0,0,0},
+	{2,0,2,0,2,0,2,0},
+	{0,2,0,2,0,2,0,2},
+	{2,0,2,0,2,0,2,0},
+}
+
+local compressed = compress(original)
+local encodedBits = arrayToEncodedBits(compressed)
+local padded = padArray(encodedBits,8)
+
+local encoded = encode(padded)
+
+local decoded = decode(encoded)
+local unpadded = unpadArray(decoded,#encodedBits)
+local decompressed = EncodedBitsToArray(unpadded)
+local original2 = decompress(decompressed)
+
+do
+	local tab = original
+	local tab2 = original2
+
+	for k,v in pairs(tab2) do
+		for k2,v2 in pairs(v) do
+			-- print(k,k2,v2,tab[k][k2],v2 == tab[k][k2])
+			if v2 ~= tab[k][k2] then
+				print("ERROR")
+				break
+			end
+		end
+	end
+end
+
+do
+	local tab = compressed
+	local tab2 = decompressed
+
+	for k,v in pairs(tab2) do
+		-- print(k,v,tab[k],v == tab[k])
+		if v ~= tab[k] then
+			print("ERROR")
+			break
+		end
+	end
+end
+
+do
+	local tab = encodedBits
+	local tab2 = unpadded
+
+	for k,v in pairs(tab2) do
+		-- print(k,v,tab[k],v == tab[k])
+		if v ~= tab[k] then
+			print("ERROR")
+			break
+		end
+	end
+end
+
+do
+	local tab = padded
+	local tab2 = decoded
+
+	for k,v in pairs(tab2) do
+		-- print(k,v,tab[k],v == tab[k])
+		if v ~= tab[k] then
+			print("ERROR")
+			break
+		end
+	end
+end
+]]
