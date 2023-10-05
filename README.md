@@ -1,6 +1,8 @@
 # checkers-compressor
 
-takes a 2d array representing a checkerboard and turns it into what I found to be the smallest number of 8 bit bytes
+takes a 2d array representing a checkerboard and turns it into the smallest amount of bites that I could easily manage
+
+turned out to be 88 bits or 11 bytes
 
 - 0 = empty
 - 1 = black pawn
